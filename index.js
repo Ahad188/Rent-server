@@ -5,15 +5,12 @@ require('dotenv').config()
 const app = express();
 const port = process.env.PORT ||5000;
 
-const corsConfig = {
-     origin: '',
-     credentials: true,
-     methods: ['GET', 'POST', 'PUT', 'DELETE']
- }
+ 
 
 
-app.use(cors(corsConfig))
+app.use(cors())
 app.use(express.json())
+ 
 
 
 
@@ -31,7 +28,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
+    await client.connect();
 
 
     const userNav = client.db('RentBD').collection('navlist')
