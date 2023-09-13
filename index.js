@@ -3,17 +3,12 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
 const app = express();
-const port = process.env.PORT ||5000;
+const port = process.env.PORT || 5000;
 
-const corsConfig = {
-     origin: '',
-     credentials: true,
-     methods: ['GET', 'POST', 'PUT', 'DELETE']
- }
- app.use(cors(corsConfig))
- app.options("", cors(corsConfig))
-// app.options("", cors(corsConfig))
-app.use(express.json())
+ 
+ app.use(cors())
+ 
+ 
  
 
 
@@ -21,18 +16,12 @@ app.use(express.json())
 const uri = `mongodb+srv://${process.env.USER}:${process.env.user_pass}@cluster0.ejfmzqt.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+ 
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
+//     Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
 
 
     const userNav = client.db('RentBD').collection('navlist')
@@ -45,15 +34,15 @@ async function run() {
 
 
 
-    app.get('/nav', async (req,res)=>{
+    app.get('/navs', async (req,res)=>{
      const result = await userNav.find().toArray()
      res.send(result)
     })
-    app.get('/feature', async (req,res)=>{
+    app.get('/features', async (req,res)=>{
      const result = await feature.find().toArray()
      res.send(result)
     })
-    app.get('/list', async (req,res)=>{
+    app.get('/lists', async (req,res)=>{
      const result = await rentList.find().toArray()
      res.send(result)
     })
@@ -61,15 +50,15 @@ async function run() {
      const result = await Awards.find().toArray()
      res.send(result)
     })
-    app.get('/location', async (req,res)=>{
+    app.get('/locations', async (req,res)=>{
      const result = await Location.find().toArray()
      res.send(result)
     })
-    app.get('/team', async (req,res)=>{
+    app.get('/teams', async (req,res)=>{
      const result = await Team.find().toArray()
      res.send(result)
     })
-    app.get('/price', async (req,res)=>{
+    app.get('/prices', async (req,res)=>{
      const result = await Price.find().toArray()
      res.send(result)
     })
@@ -95,7 +84,7 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+//     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
